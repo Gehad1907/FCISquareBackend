@@ -107,5 +107,26 @@ public class Services {
 		return json.toJSONString();
 	}
 	
-	
+	//_____________________________________________________________________________//
+		@POST
+		@Path("/getfollowerslist")
+		@Produces(MediaType.TEXT_PLAIN)
+		public String getfollowerslist(@FormParam("email") String followeremail	) {
+			UserModel model=new UserModel();
+			String user = model.getfollowersList(followeremail);
+			JSONObject json = new JSONObject();	
+			json.put("followers list = ", user );
+			return json.toJSONString();
+		}
+		//------------------------------------------------------------------------------//
+		
+		@POST
+		@Path("/getUserPosition")
+		@Produces(MediaType.TEXT_PLAIN)
+		public String getUserPosition(@FormParam("id") String id ) {
+			String status = UserModel.getUserPosition(Integer.parseInt(id));
+			JSONObject json = new JSONObject();
+			json.put("position", status );
+			return json.toJSONString();
+		}
 }

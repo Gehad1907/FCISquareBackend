@@ -182,6 +182,54 @@ public class UserModel {
 		return false;
 	}
 
-
+	// _______________________________________________________________________//
+		public static String getfollowersList(String mail1) {
+			try {
+				Connection conn = DBConnection.getActiveConnection();
+				String sql = "select `followername` from follow  where `followeremail`=?";
+				// System.out.println(sql);
+				PreparedStatement stmt;
+				stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				stmt.setString(1, mail1);
+				ResultSet rs = stmt.executeQuery();
+				System.out.println(mail1);
+				while (rs.next()) {
+					
+					String name=rs.getString("followername");
+					System.out.println(name);
+					return name;
+				}
+				return null;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+	//________________________________________________________________________________//
+		
+		public static String getUserPosition(Integer id) {
+			try {
+				Connection conn = DBConnection.getActiveConnection();
+				String sql = "Select `lat` ,`long` from users  where `id` = ?";
+				PreparedStatement stmt;
+				stmt = conn.prepareStatement(sql);			
+				stmt.setInt(1, id);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next()) {
+					UserModel user = new UserModel();
+					
+					user.lat = rs.getDouble("lat");
+					user.lon = rs.getDouble("long");
+					String posision=user.lat+" , "+ user.lon;
+					return posision;
+				}
+				
+				return null;
+			} catch (SQLException e) {
+				e.printStackTrace(); 
+			}
+			return null;
+		}	
 
 }
